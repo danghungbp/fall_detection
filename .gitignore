@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+backend/fall_events.db
+
+# Documents (As requested)
+*.pdf
+terminal.txt
+cmd.txt
+
+# YOLO / Dataset
+data/
+outputs/
+runs/
+*.mp4
+*.avi
+*.mkv
+
+# Flutter/Dart/Android/iOS
+app_mobile/.dart_tool/
+app_mobile/.flutter-plugins
+app_mobile/.flutter-plugins-dependencies
+app_mobile/.packages
+app_mobile/build/
+app_mobile/ios/Flutter/.last_build_id
+app_mobile/.pub-cache/
+app_mobile/.pub/
+app_mobile/android/app/src/main/google-services.json
+app_mobile/android/app/google-services.json
+app_mobile/android/key.properties
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo

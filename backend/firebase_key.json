@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fall-detection-app-c515d",
+  "private_key_id": "cbc58c8ab3240037a65e384aabe217c32b453720",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDDw2ffkgZN86lu\nFNppLaPFEI0ZwqBiyKchAUhTfJrGuT8l1gNDyag1nCCVFCG3R2N62jNl0XI72CZu\nQv42vcxn1K2HAPwNIlWGbq7ZyWwiK2OjBT7TCNIsABt8Ywy0xvedS9ATIUWoLJ7v\nU4kprPmbxR9nX6cR1f0jYBNqHhvhBZQpvqvPeQx2llWQQWr/7oFDGHDHqca1EQzX\nU5yxfUDMaAh8RncRod/goD0WQA0OLEUBkcIz+63qC7tdp9s2g2Ae9pBljYeJl9Io\n1l0gTMqaWIkBm+mY72GxoONh9NS0fjdFYBup7d2OyOeyCWK0FIYbdJ8Zzl/y/Zlg\nwjjVcG2ZAgMBAAECgf9qws9GO0tXzxCGOFkqmm2wP5aFcCTlAH08QrbMFuhpPe8s\nioS9Sp+xtD9tyCn4IYglCSw41SlxnIz7zzvgHsU98jj2YZjlqBPZfL2NWekNiu2j\nABCaWCO7FYJziAWDBdD45kKCWtc/TrlHenue8zyKmfw6xwy5EFH3Z3PpQtPOjBJA\nUbHnvuXzCRzS2j3ka83EW8Z+MdnFK12XZ4iLS/Ps6acqcCrMh4xujbQlTuWtMU7i\nz4yvBBTkZeZxumMQfm5MPrb2QS2J6JYDHVUH3Gb/tyNgZ6wUpWYFthFmHGh3fDr2\n2EuAtbabBKnmc8X1WmbLcRQMZCpclB3gD0fCj8ECgYEA+mTkI6g/e1VneXZ6eXxS\nW1JcvXVr+93iepv6S1M1+/zthU4DQDv4fcDjgvnpmUsL2vfv3bmlsC6PhnUC4sXm\nB0YpXL0oEwvcLqq4A3XY+U5YQ30DIfekwuNf/Rk+EN5cpyIEL9cw4UH9djsvuNzm\nRdq//6+pF3nmOxqc+AAOW/kCgYEAyCVnUfD91Yh84kbD3VqN/qwiA7ClGIrh+fqX\n5BHegd8aRQbWy2HoQaXdES0cPTKwQeMTJ3UXCUcWPMhSGYi2RsR51PisiypaROoP\nYhvzQLJtSbmcEOBtNLAheps7jqTG5TPuovcxm79uOeV9NJGQBg48Ff5kZrj80gCk\n59D2xqECgYBqOrt/VTX5gTYxFc7IE7JtA/hMeLCjXnNjSSFbK6ZPjfLHB13hto+p\n6lebjaNJYclZ0K53BvgAUwCZLrNWulbo5x9NNQL3caSsN8lxzmGLA2320+asVoAU\nHpruqfLm/S+ZyJi2Izmdl32M13dbmnwnTrL+Kuw2BYVjtdq6bGurIQKBgQC8a0H+\nSTKd0LVIzDfd7j8ZDvGiqaxzE2Qz0q8lnZDskJ0JeKvDojNlggFBB0e7cTmvfVdt\n4PRD3rFXnXp04Vg//P14+nZtOPzsPbEnuophUNhD/MGova7xWBLcesExw3wfEKnK\nr437QtdBGAOr9pEwsjvstKXOcr5H8SVNu1JmoQKBgDIzDDAe7OT32INWVUPH/3yH\nmsw9LSAzMNynuwANVHrajO03SjISfGc1tQ7ce7beKRvsgFxRpHHzIMyli8+Yx/sH\nFOX4S49j0naQvFdZf57e5g7kNY9nXsIJ42nD047VxQhFPTcu/6dkL0t4iaUveiYC\nEIxforqHWpDB7jtU30TH\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@fall-detection-app-c515d.iam.gserviceaccount.com",
+  "client_id": "115538181989325537519",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40fall-detection-app-c515d.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
