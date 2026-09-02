@@ -33,6 +33,7 @@ backend/fall_events.db
 *.pdf
 terminal.txt
 cmd.txt
+read_pdf.py
 
 # YOLO / Dataset
 data/
