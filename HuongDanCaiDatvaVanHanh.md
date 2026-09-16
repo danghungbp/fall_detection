@@ -116,9 +116,21 @@ python camera_manager.py
 ```
 *Lúc này, mô hình YOLOv8 sẽ được tải vào bộ nhớ (GPU/CPU) và bắt đầu phân tích luồng video. Bất cứ khi nào phát hiện hành vi vấp ngã (thông qua bộ lọc Heuristic), một tín hiệu sẽ được gửi qua Backend để đẩy thông báo FCM.*
 
-**Bước 3: Giám sát trên Ứng dụng Di động**
-1. Đảm bảo điện thoại và máy tính chạy Backend kết nối **cùng một mạng LAN/Wi-Fi**.
+**Bước 3: Kết nối mạng ngoài qua Tailscale (Tùy chọn - Giám sát từ xa)**
+Để ứng dụng di động có thể nhận cảnh báo FCM và xem trực tiếp Video Stream khi **không ở cùng mạng Wi-Fi/LAN** (ví dụ: dùng 4G/5G hoặc khi ở xa nhà):
+1. **Cài đặt Tailscale:**
+   - Trên Máy tính (Backend Server): Tải và cài đặt [Tailscale cho Windows/macOS](https://tailscale.com/).
+   - Trên Điện thoại: Tải ứng dụng **Tailscale** từ Google Play Store / App Store.
+2. **Kích hoạt mạng riêng ảo (Tailnet):**
+   - Đăng nhập cùng 1 tài khoản Tailscale (ví dụ Google/Microsoft) trên cả máy tính và điện thoại.
+   - Bật kết nối Tailscale trên cả hai thiết bị.
+3. **Cấu hình trên App Flutter:**
+   - Mở app Tailscale trên máy tính, lấy địa chỉ **Tailscale IPv4** của máy tính (có dạng `100.x.y.z`).
+   - Mở ứng dụng **Fall Detection AI** trên điện thoại, trong phần cấu hình địa chỉ Server, nhập IP Tailscale của máy tính thay vì IP Wi-Fi nội bộ.
+
+**Bước 4: Giám sát trên Ứng dụng Di động**
+1. Đảm bảo điện thoại và máy tính chạy Backend kết nối cùng mạng LAN/Wi-Fi (hoặc bật ứng dụng **Tailscale** trên cả 2 thiết bị nếu giám sát từ xa qua 4G/5G).
 2. Mở ứng dụng **Fall Detection AI** trên điện thoại.
-3. Trong cài đặt mạng của App, hãy nhập đúng địa chỉ IP LAN của máy tính đang chạy Backend.
+3. Trong cài đặt mạng của App, hãy nhập đúng địa chỉ IP máy tính (IP Wi-Fi LAN hoặc Tailscale IP).
 4. Đảm bảo Tường lửa (Firewall) trên máy tính đã cho phép cổng `5000` (Backend) và cổng của Camera Stream (ví dụ `8080`, `8081`...).
 5. Thêm camera bằng đường dẫn RTSP hoặc số `0` (cho Webcam máy tính) và bắt đầu giám sát trực tiếp.
