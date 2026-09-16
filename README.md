@@ -54,7 +54,7 @@ Hệ thống bao gồm 3 phân hệ chính hoạt động song song và giao ti�
 
 Chi tiết về yêu cầu cấu hình phần cứng, cách cài đặt môi trường ảo (Python), cài đặt SDK (Flutter), thiết lập Firebase và các bước khởi chạy từng module được mô tả cụ thể trong file đính kèm.
 
-👉 **Vui lòng xem chi tiết tại: [Hướng dẫn Cài đặt và Vận hành (HuongDanCaiDatVaVanHanh.md)](./HuongDanCaiDatVaVanHanh.md)**
+👉 **Vui lòng xem chi tiết tại: [Hướng dẫn Cài đặt và Vận hành (HuongDanCaiDatvaVanHanh.md)](./HuongDanCaiDatvaVanHanh.md)**
 
 ---
 
