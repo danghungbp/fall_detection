@@ -28,7 +28,7 @@ Phân hệ này chịu trách nhiệm chạy mô hình YOLOv8, xử lý luồng 
 **Bước 1: Tải mã nguồn**
 Mở Terminal/Command Prompt và di chuyển đến thư mục làm việc, tải mã nguồn (hoặc sao chép thư mục dự án):
 ```bash
-git clone <url_repo_cua_ban>
+git clone <url_repo>
 cd fall_detection
 ```
 
