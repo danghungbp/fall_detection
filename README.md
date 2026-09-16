@@ -23,7 +23,7 @@ Hệ thống bao gồm 3 phân hệ chính hoạt động song song và giao ti�
   - `05_realtime_demo.py`: Module chính xử lý luồng (RTSP/Webcam). Model YOLOv8 nhận diện 6 class (Fall, Walking, Sitting, Standing, Lying, Bending).
 - **Bộ lọc thông minh (Smart Heuristics):** Để loại bỏ báo động giả (như nằm trên giường/võng, hoặc AI nhận nhầm tủ/xe máy thành người từ góc trên cao), hệ thống áp dụng thuật toán lọc tinh chỉnh:
   1. Hủy bỏ khung nhận diện (Bounding box) chiếm quá >60% hoặc <5% diện tích khung hình để tránh lỗi "ảo giác" của AI.
-  2. Để được tính là "Té ngã" (Fall), tư thế phải nằm bẹp (Aspect ratio > 1.2), vị trí ở sát sàn nhà (Bottom ratio > 0.75) và độ tin cậy của AI (Confidence) phải đạt tối thiểu 80%.
+  2. Để được tính là "Té ngã" (Fall), tư thế phải nằm bẹp ngang hoặc ngã chéo (Aspect ratio > 0.8), trọng tâm cơ thể nằm ở nửa dưới camera (Center Y > 0.55) và độ tin cậy của AI (Confidence) phải đạt tối thiểu 70%.
   3. Cần 3 khung hình liên tiếp đạt đủ điều kiện để kích hoạt sự kiện ngã nhằm tránh nhiễu tạm thời.
 - **Phát trực tiếp (Live Stream):** Mỗi camera sẽ mở một Mini-Flask Server nội bộ (chạy mjpeg) trên một port riêng lẻ để truyền luồng hình ảnh đã vẽ AI sang Backend và Mobile App với độ trễ cực thấp.
 
@@ -50,31 +50,11 @@ Hệ thống bao gồm 3 phân hệ chính hoạt động song song và giao ti�
 
 ---
 
-## 4. Hướng dẫn vận hành hệ thống (How to Run)
+## 4. Hướng dẫn Cài đặt và Vận hành (How to Install & Run)
 
-### Bước 1: Khởi động Backend Server
-```bash
-cd backend
-python app.py
-```
-> Server sẽ chạy tại địa chỉ `http://[IP_MAY_TINH]:5000`. Backend chịu trách nhiệm điều phối toàn bộ data.
+Chi tiết về yêu cầu cấu hình phần cứng, cách cài đặt môi trường ảo (Python), cài đặt SDK (Flutter), thiết lập Firebase và các bước khởi chạy từng module được mô tả cụ thể trong file đính kèm.
 
-### Bước 2: Khởi động AI Camera Manager
-```bash
-python camera_manager.py
-```
-> Script này sẽ tự động liên hệ Backend, lấy danh sách các Camera đang có và tự động chạy luồng AI (YOLO) để nhận diện và phát stream MJPEG nội bộ.
-
-### Bước 3: Cài đặt & Chạy Mobile App
-```bash
-cd app_mobile
-flutter clean
-flutter pub get
-flutter build apk --release
-```
-> Cài đặt file `app_mobile/build/app/outputs/flutter-apk/app-release.apk` lên điện thoại Android.
-> Đăng nhập tài khoản, bấm [+] để thêm Camera bằng thông số RTSP (Ví dụ: `rtsp://admin:pass@192.168.1.100/stream2`).
-> Hệ thống sẽ tự động liên kết và hình ảnh AI sẽ hiện lên màn hình điện thoại.
+👉 **Vui lòng xem chi tiết tại: [Hướng dẫn Cài đặt và Vận hành (HuongDanCaiDatVaVanHanh.md)](./HuongDanCaiDatVaVanHanh.md)**
 
 ---
 

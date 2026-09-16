@@ -233,15 +233,16 @@ class FallDetectionDemo:
                 if cls_id == 0:
                     # ===== BỘ LỌC THÔNG MINH CHỐNG BÁO ĐỘNG GIẢ (FALL) =====
                     aspect_ratio = box_w / max(box_h, 1)
-                    bottom_ratio = y2 / frame_h
+                    center_y = (y1 + y2) / 2 / frame_h  # Trọng tâm của người
 
-                    # Lọc nghiêm ngặt hơn để tránh giường/võng:
-                    # 1. Phải thật sự nằm bẹp (tỷ lệ > 1.2)
-                    is_flat_horizontal = aspect_ratio > 1.2
-                    # 2. Phải nằm rất sát mép dưới camera (sàn nhà)
-                    is_on_floor = bottom_ratio > 0.75
+                    # 1. Bỏ qua tỷ lệ quá khắt khe (ngã chéo góc camera w có thể không > 1.2h)
+                    is_flat_horizontal = aspect_ratio > 0.8
+                    
+                    # 2. Dùng TRỌNG TÂM (center_y) thay vì gót chân (bottom_ratio). 
+                    # Nếu trọng tâm cơ thể nằm ở nửa dưới camera (sàn nhà) -> Tính là ngã
+                    is_on_floor = center_y > 0.55
 
-                    if is_flat_horizontal and is_on_floor and conf_v >= 0.80:
+                    if is_flat_horizontal and is_on_floor and conf_v >= 0.70:
                         has_fall   = True
                         fall_count += 1
                         self.stats["fall_count"] += 1
