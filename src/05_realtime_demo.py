@@ -73,6 +73,42 @@ def video_feed():
     """Endpoint trả về luồng stream MJPEG."""
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+def get_tailscale_ip():
+    """Tự động phát hiện IP Tailscale (dải 100.64.0.0/10) nếu đang chạy."""
+    # Cách 1: Dùng netifaces (cross-platform, nếu đã cài)
+    try:
+        import netifaces
+        for iface in netifaces.interfaces():
+            addrs = netifaces.ifaddresses(iface).get(netifaces.AF_INET, [])
+            for addr in addrs:
+                ip = addr.get("addr", "")
+                if ip.startswith("100."):
+                    parts = ip.split(".")
+                    if 64 <= int(parts[1]) <= 127:
+                        return ip
+    except ImportError:
+        pass
+
+    # Cách 2: Dự phòng - scan tất cả interfaces qua socket (Windows & Linux)
+    try:
+        import subprocess, re
+        if os.name == "nt":  # Windows
+            out = subprocess.check_output("ipconfig", encoding="utf-8", errors="ignore", timeout=3)
+            for ip in re.findall(r"IPv4 Address.*?:\s*(100\.\d+\.\d+\.\d+)", out):
+                parts = ip.split(".")
+                if 64 <= int(parts[1]) <= 127:
+                    return ip
+        else:  # Linux/Mac
+            out = subprocess.check_output(["ip", "-4", "addr"], encoding="utf-8", errors="ignore", timeout=3)
+            for ip in re.findall(r"inet\s+(100\.\d+\.\d+\.\d+)", out):
+                parts = ip.split(".")
+                if 64 <= int(parts[1]) <= 127:
+                    return ip
+    except Exception:
+        pass
+
+    return None
+
 def get_local_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -83,9 +119,8 @@ def get_local_ip():
     except Exception:
         return "127.0.0.1"
 
-# Ưu tiên biến môi trường STREAM_HOST (Tailscale IP) nếu có, 
-# nếu không thì tự động lấy IP Wi-Fi cục bộ
-LOCAL_IP = os.environ.get("STREAM_HOST", get_local_ip())
+# Ưu tiên: 1) Biến môi trường STREAM_HOST, 2) IP Tailscale (tự động), 3) IP Wi-Fi LAN
+LOCAL_IP = os.environ.get("STREAM_HOST") or get_tailscale_ip() or get_local_ip()
 
 
 # ============================================================
@@ -224,6 +259,7 @@ class FallDetectionDemo:
                 frame_area = frame_w * frame_h
                 
                 # Bỏ qua vật thể quá nhỏ (tranh, nhiễu) hoặc quá khổng lồ (nhận nhầm cả phòng/tủ/xe máy)
+                # Ngưỡng: >=5% và <=60% diện tích khung hình (theo báo cáo)
                 if box_area < (frame_area * 0.05) or box_area > (frame_area * 0.60):
                     continue
 
@@ -232,17 +268,18 @@ class FallDetectionDemo:
 
                 if cls_id == 0:
                     # ===== BỘ LỌC THÔNG MINH CHỐNG BÁO ĐỘNG GIẢ (FALL) =====
-                    aspect_ratio = box_w / max(box_h, 1)
-                    center_y = (y1 + y2) / 2 / frame_h  # Trọng tâm của người
+                    # Công thức theo báo cáo:
+                    #   AR = bbox_width / bbox_height
+                    #   bottom_ratio = y_bottom / frame_height
+                    # Điều kiện nghi vấn fall:
+                    #   AR > 1.2 AND bottom_ratio > 0.75 AND confidence >= 0.80
+                    aspect_ratio  = box_w / max(box_h, 1)
+                    bottom_ratio  = y2 / frame_h  # Tọa độ đáy bounding box chuẩn hóa
 
-                    # 1. Bỏ qua tỷ lệ quá khắt khe (ngã chéo góc camera w có thể không > 1.2h)
-                    is_flat_horizontal = aspect_ratio > 0.8
-                    
-                    # 2. Dùng TRỌNG TÂM (center_y) thay vì gót chân (bottom_ratio). 
-                    # Nếu trọng tâm cơ thể nằm ở nửa dưới camera (sàn nhà) -> Tính là ngã
-                    is_on_floor = center_y > 0.55
+                    is_flat_horizontal = aspect_ratio > 1.2
+                    is_on_floor        = bottom_ratio > 0.75
 
-                    if is_flat_horizontal and is_on_floor and conf_v >= 0.70:
+                    if is_flat_horizontal and is_on_floor and conf_v >= 0.80:
                         has_fall   = True
                         fall_count += 1
                         self.stats["fall_count"] += 1
@@ -250,11 +287,12 @@ class FallDetectionDemo:
                         label = f"FALL: {conf_v:.2f}"
                         color = (50, 50, 220)
                     else:
+                        # Không thỏa điều kiện fall -> phân loại lại theo hình học
                         if aspect_ratio > 1.0:
-                            cls_id = 4 # Lying
+                            cls_id = 4  # Lying (nằm ngang nhưng không đủ điều kiện ngã)
                             self.stats["lying_count"] += 1
                         else:
-                            cls_id = 5 # Bending
+                            cls_id = 5  # Bending (cúi người)
                             self.stats["bending_count"] += 1
                         label = f"{CLASS_NAMES.get(cls_id)}: {conf_v:.2f}"
                         color = CLASS_COLORS.get(cls_id)

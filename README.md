@@ -23,8 +23,8 @@ Hệ thống bao gồm 3 phân hệ chính hoạt động song song và giao ti�
   - `05_realtime_demo.py`: Module chính xử lý luồng (RTSP/Webcam). Model YOLOv8 nhận diện 6 class (Fall, Walking, Sitting, Standing, Lying, Bending).
 - **Bộ lọc thông minh (Smart Heuristics):** Để loại bỏ báo động giả (như nằm trên giường/võng, hoặc AI nhận nhầm tủ/xe máy thành người từ góc trên cao), hệ thống áp dụng thuật toán lọc tinh chỉnh:
   1. Hủy bỏ khung nhận diện (Bounding box) chiếm quá >60% hoặc <5% diện tích khung hình để tránh lỗi "ảo giác" của AI.
-  2. Để được tính là "Té ngã" (Fall), tư thế phải nằm bẹp ngang hoặc ngã chéo (Aspect ratio > 0.8), trọng tâm cơ thể nằm ở nửa dưới camera (Center Y > 0.55) và độ tin cậy của AI (Confidence) phải đạt tối thiểu 70%.
-  3. Cần 3 khung hình liên tiếp đạt đủ điều kiện để kích hoạt sự kiện ngã nhằm tránh nhiễu tạm thời.
+  2. Để được tính là "Té ngã" (Fall), phải đồng thời thỏa 3 điều kiện: tư thế nằm bẹp ngang hoặc ngã chéo (**Aspect Ratio > 1.2**), đáy khung nhận diện nằm ở nửa dưới khung hình (**Bottom Ratio = y_bottom / frame_height > 0.75**) và độ tin cậy AI (**Confidence ≥ 80%**).
+  3. Cần **10 khung hình liên tiếp** đạt đủ điều kiện để kích hoạt sự kiện ngã, nhằm loại bỏ nhiễu tạm thời. Sau khi xác nhận fall, hệ thống áp dụng cooldown **30 giây** trước khi chấp nhận gửi cảnh báo tiếp theo cho cùng sự kiện.
 - **Phát trực tiếp (Live Stream):** Mỗi camera sẽ mở một Mini-Flask Server nội bộ (chạy mjpeg) trên một port riêng lẻ để truyền luồng hình ảnh đã vẽ AI sang Backend và Mobile App với độ trễ cực thấp.
 
 ### 3.2. Backend Server (Flask)
